@@ -1,30 +1,44 @@
-Table ServiceTickets {
-    id int [pk, increment]
-    userId int [ref: < Users.id]
-    description varchar
-    emergency boolean
-    dateCompleted date 
-}   
-Table Customers {
-    id int [pk, increment]
-    address varchar
-    phoneNumber varchar
-    userId int  [ref: - Users.id]
+table serviceTickets {
+  id int pk
+  userId int
+  description varchar
+  emergency boolean
+  dateCompleted date
 }
-Table EmployeeTickets {
-    id int [pk, increment]
-    employeeId int [ref: < Employees.id]
-    seviceTicketId int [ref: < ServiceTickets.id]
+
+table customers {
+  id int pk
+  address varchar
+  phoneNumber varchar
+  userId int
 }
-Table Employees {
-    id int [pk, increment]
-    specialty varchar
-    rate float
-    userId int [ref: < Users.id]
+
+table employeeTickets {
+  id int pk
+  employeeId int
+  serviceTicketId int
 }
-Table Users {
-    id int [pk, increment]
-    fullName varchar
-    email varchar
-    isStaff boolean
+
+table employees {
+  id int pk
+  specialty varchar
+  rate float
+  userId int
 }
+
+table users {
+  id int pk
+  fullName varchar
+  email varchar
+  isStaff boolean
+}
+
+Ref: "serviceTickets"."id" < "employeeTickets"."serviceTicketId"
+
+Ref: "employees"."id" < "employeeTickets"."employeeId"
+
+Ref: "users"."id" < "employees"."userId"
+
+Ref: "users"."id" < "customers"."userId"
+
+Ref: "users"."id" < "serviceTickets"."userId"
